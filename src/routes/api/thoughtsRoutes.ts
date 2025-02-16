@@ -1,6 +1,6 @@
 import { Router } from 'express';
 const router = Router();
-// import functions from thoughtController to getAllThoughts, getThoughtById, createNewThought, updateThoughtById, deleteThoughtById, createAReaction, deleteAReactionById
+import { getAllThoughts, getThoughtById, createNewThought, updateThoughtById, deleteThoughtById, createAReaction, deleteAReactionById } from '../../controllers/thoughtController.js';
 
 
 router.route('/')
