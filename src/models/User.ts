@@ -4,8 +4,8 @@ import { Schema, model, Document, Types } from "mongoose";
 interface IUser extends Document {
   username: string;
   email: string;
-  thoughts: Types.ObjectId[];
-  friends: Types.ObjectId[];
+  thoughts?: Types.ObjectId[];
+  friends?: Types.ObjectId[];
 }
 
 // Schema to create User model
@@ -27,12 +27,14 @@ const userSchema = new Schema<IUser>(
       {
         type: Schema.Types.ObjectId,
         ref: 'Thought',
+        default: undefined,
       },
     ],
     friends: [
       {
         type: Schema.Types.ObjectId,
         ref: 'User',
+        default: undefined,
       },
     ],
   },
@@ -45,8 +47,8 @@ const userSchema = new Schema<IUser>(
 );
 
 // Create a virtual property `friendCount` that gets the amount of friends per user
-userSchema.virtual('friendCount').get(function() {
-  return this.friends.length;
+userSchema.virtual('friendCount').get(function(this: IUser) {
+  return this.friends?.length || 0;
 });
 
 const User = model<IUser>('User', userSchema);

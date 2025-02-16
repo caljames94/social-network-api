@@ -95,16 +95,29 @@ export const createAReaction = async (req: Request, res: Response) => {
 // Delete a reaction by its reactionId
 export const deleteAReactionById = async (req: Request, res: Response) => {
   try {
+    const { thoughtId, reactionId } = req.params;
+
     const updatedThought = await Thought.findByIdAndUpdate(
-      req.params.thoughtId,
-      { $pull: { reactions: { reactionId: req.params.reactionId } } },
+      thoughtId,
+      { $pull: { reactions: { reactionId: reactionId } } },
       { new: true }
     );
+
     if (!updatedThought) {
       return res.status(404).json({ message: 'No thought with this id!' });
     }
-    return res.json(updatedThought);
+
+    if (!updatedThought.reactions) {
+      return res.status(404).json({ message: 'No reactions found for this thought!' });
+    }
+    const deletedReaction = updatedThought.reactions.id(reactionId);
+    if (!deletedReaction) {
+      return res.status(404).json({ message: 'No reaction with this id!' });
+    }
+
+    return res.json({ message: 'Reaction successfully deleted', updatedThought });
   } catch (err) {
-    return res.status(400).json(err);
+    console.error('Error in deleteAReactionById:', err);
+    return res.status(500).json({ message: 'Server error', error: err });
   }
 };

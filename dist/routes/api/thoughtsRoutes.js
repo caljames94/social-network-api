@@ -1,21 +1,15 @@
 import { Router } from 'express';
 const router = Router();
 import { getAllThoughts, getThoughtById, createNewThought, updateThoughtById, deleteThoughtById, createAReaction, deleteAReactionById } from '../../controllers/thoughtController.js';
-
-
 router.route('/')
     .get(getAllThoughts)
-    .post(createNewThought) 
-
+    .post(createNewThought);
 router.route('/:thoughtId')
     .get(getThoughtById)
     .put(updateThoughtById)
-    .delete(deleteThoughtById)
-
+    .delete(deleteThoughtById);
 router.route('/:thoughtId/reactions')
-    .post(createAReaction)
-
+    .post(createAReaction);
 router.route('/:thoughtId/reactions/:reactionId')
-    .delete(deleteAReactionById)
-
+    .delete(deleteAReactionById);
 export default router;
