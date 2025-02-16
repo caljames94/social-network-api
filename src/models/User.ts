@@ -2,7 +2,6 @@ import { Schema, model, Document, Types } from "mongoose";
 
 // Interface representing a User document
 interface IUser extends Document {
-  userId: Types.ObjectId;
   username: string;
   email: string;
   thoughts: Types.ObjectId[];
@@ -12,10 +11,6 @@ interface IUser extends Document {
 // Schema to create User model
 const userSchema = new Schema<IUser>(
   {
-    userId: {
-      type: Schema.Types.ObjectId,
-      default: () => new Types.ObjectId(),
-    },
     username: {
       type: String,
       unique: true,
